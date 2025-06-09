@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Space{% endblock %}
+{% block content %}
+<style>
+  body {
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .chat-container {
+    background-color: #9cf38a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 70%; 
+    margin: 50px auto;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .chat-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .chat-messages {
+    max-height: 30%;
+    overflow-y: auto;
+  }
+
+  .chat-messages::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  .message {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .message.self {
+    background-color: #DCF8C6;
+    text-align: right;
+  }
+
+  .message.other {
+    background-color: #EDEDED;
+    text-align: left;
+  }
+
+  .message p {
+    margin: 0;
+  }
+
+  .message p strong {
+    font-weight: bold;
+  }
+
+  .message-form {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #4ae88e; 
+    margin-top: 20px;
+  }
+
+  .message-input {
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+  .send-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    .chat-container {
+      width: 90%;
+    }
+  }
+</style>
+
+<div class="chat-container">
+  <h2 style="text-align: center;">{{ group.name }}</h2>
+
+  <div class="chat-messages">
+    {% for message in messages %}
+      <div class="message {% if message.sender == user %}self{% else %}other{% endif %}">
+        <p><strong>{{ message.sender.username }}</strong> ({{ message.timestamp|date:"F j, Y, g:i a" }}):</p>
+        <p>{{ message.message }}</p>
+      </div>
+    {% empty %}
+      <p style="text-align: center;">No messages yet. Be the first to start the conversation!</p>
+    {% endfor %}
+  </div>
+
+  <form method="post" class="message-form">
+    {% csrf_token %}
+    <input type="text" name="message" class="message-input" placeholder="Type a message...">
+    <button type="submit" class="send-button">Send</button>
+  </form>
+</div>
+{% endblock %}

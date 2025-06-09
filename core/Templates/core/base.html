@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{% block title %}{% endblock %} | market</title>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="py-4 px-6 flex justify-between items-center border-b border-gray-200 bg-teal-200 text-black sticky top-0 z-50">
+        <!-- Logo -->
+        <a href="/" class="text-xl font-semibold">Home</a>
+
+        <!-- Sell Your Item (Always Visible) -->
+        <a href="{% url 'item:new' %}" class="text-lg font-semibold hover:text-gray-500">Sell your item</a>
+
+        <!-- Toggle Button for Small Screens -->
+        <button class="lg:hidden text-gray-500 focus:outline-none" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Main Navigation -->
+        <div id="navbarMenu" class="hidden lg:flex lg:space-x-6 items-center">
+            {% if request.user.is_authenticated %}
+            <div class="relative inline-block text-left">
+                <button type="button" onclick="toggleDropdown()" class="inline-flex justify-center px-4 py-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:text-gray-500">
+                    <i class="fa fa-user mr-2" aria-hidden="true"></i>
+                </button>
+                <div id="dropdown-menu" class="hidden absolute right-0 w-56 mt-2 bg-white rounded-md shadow-lg">
+                    <div class="py-1">
+                        <a href="{% url 'conversation:inbox' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Inbox</a>
+                        <a href="{% url 'conversation:group' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Space</a>
+                        <a href="{% url 'dashboard:index' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                        <a href="{% url 'core:logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'core:signup' %}" class="px-4 py-2 text-lg font-semibold bg-teal-500 text-white rounded hover:bg-teal-700">Sign up</a>
+            <a href="{% url 'core:login' %}" class="px-4 py-2 text-lg font-semibold bg-gray-500 text-white rounded hover:bg-gray-700">Log in</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <div class="px-6 py-6">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-6 px-6 bg-gray-800 text-gray-400">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- About Section -->
+            <div>
+                <h3 class="mb-4 font-semibold text-gray-400">About</h3>
+                <p class="text-sm leading-6">
+                    Discover the joy of buying and selling on our online marketplace! A secure platform connecting buyers and sellers, we make commerce easy and exciting. Explore a world of opportunities and join our community today. Together, let’s redefine shopping!
+                </p>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div>
+                <h3 class="mb-4 font-semibold text-gray-400">Quick Links</h3>
+                <ul class="list-none space-y-2">
+                    <li><a href="{% url 'core:about' %}" class="text-teal-400 hover:underline">About</a></li>
+                    <li><a href="{% url 'core:contact' %}" class="text-teal-400 hover:underline">Contact</a></li>
+                    <li><a href="{% url 'core:term' %}" class="text-teal-400 hover:underline">Privacy Policy</a></li>
+                    <li><a href="{% url 'core:term' %}" class="text-teal-400 hover:underline">Terms of Use</a></li>
+                </ul>
+            </div>
+
+            <!-- Follow Us Section -->
+            <div>
+                <h3 class="mb-4 font-semibold text-gray-400">Follow Us</h3>
+                <ul class="list-none space-y-2">
+                    <li><a href="#" class="text-teal-400 hover:underline"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li><a href="#" class="text-teal-400 hover:underline"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#" class="text-teal-400 hover:underline"><i class="fab fa-instagram"></i> Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            dropdownMenu.classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const navbarMenu = document.getElementById('navbarMenu');
+            navbarMenu.classList.toggle('hidden');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.inline-flex') && !event.target.closest('#dropdown-menu')) {
+                const dropdownMenu = document.getElementById('dropdown-menu');
+                dropdownMenu.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

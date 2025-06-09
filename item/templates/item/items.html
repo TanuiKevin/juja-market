@@ -1,0 +1,121 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+<div class="relative bg-gray-100">
+    <!-- Toggle Button for Small Screens -->
+    <div class="lg:hidden py-4 px-6">
+        <button 
+            onclick="toggleSidebar()" 
+            class="py-2 px-4 bg-teal-500 text-white rounded-xl hover:bg-teal-600">
+            Search and Filter
+        </button>
+    </div>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" 
+             class="bg-white w-full lg:w-1/4 p-6 shadow-md fixed lg:static top-0 left-0 z-50 lg:translate-x-0 -translate-x-full lg:transition-none transition-transform duration-300">
+            <!-- Close Button for Small Screens -->
+            <div class="lg:hidden text-right">
+                <button onclick="toggleSidebar()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Search Form -->
+            <form method="get" action="{% url 'item:items' %}">
+                <input name="query" 
+                       class="w-full py-3 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                       type="text" 
+                       value="{{ query }}" 
+                       placeholder="Search for items...">
+                <button aria-label="Search" 
+                        class="mt-3 py-2 px-6 w-full bg-teal-500 text-white rounded-xl hover:bg-teal-700">
+                    Search
+                </button>
+            </form>
+            <hr class="my-6">
+            <!-- Categories -->
+            <p class="font-semibold text-gray-700 mb-4">Categories</p>
+            <ul class="space-y-2">
+                {% for category in categories %}
+                <li class="py-2 px-3 rounded-xl {% if category.id == category_id %}bg-gray-200{% endif %}">
+                    <a href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}" 
+                       class="block text-gray-700 hover:text-teal-500">
+                        {{ category.name }} <small>({{ category.items.count }})</small>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <hr class="my-6">
+
+            <!-- Sort by Price -->
+            <form id="filterForm" method="get" action="{% url 'item:items' %}">
+                <input type="hidden" name="query" value="{{ query }}">
+                {% if category_id %}
+                <input type="hidden" name="category" value="{{ category_id }}">
+                {% endif %}
+                <select name="price_order" 
+                        class="w-full py-3 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                        onchange="this.form.submit()">
+                    <option value="">Sort by price</option>
+                    <option value="asc" {% if price_order == 'asc' %}selected{% endif %}>Low to high</option>
+                    <option value="desc" {% if price_order == 'desc' %}selected{% endif %}>High to low</option>
+                </select>
+            </form>
+
+            <hr class="my-6">
+
+            <!-- Clear Filters -->
+            <a href="{% url 'item:items' %}" 
+               class="block mt-2 py-3 px-6 text-center bg-yellow-500 text-white rounded-xl hover:bg-yellow-600">
+                Clear
+            </a>
+        </div>
+
+        <!-- Items Section -->
+        <div class="w-full lg:w-3/4 ml-auto">
+            <div class="mt-6 px-6 py-6 bg-gray-100 rounded-xl shadow-md">
+                <h2 class="mb-6 text-2xl font-semibold text-center text-gray-800">All Items</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 gap-5">
+                    {% for item in items %}
+                    <div class="relative border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                        {% if item.featured %}
+                        <div class="absolute top-0 left-0 bg-yellow-300 text-white py-1 px-3 text-xs font-bold rounded-br-xl z-10">
+                            Featured
+                        </div>
+                        {% endif %}
+                        <a href="{% url 'item:detail' item.id %}">
+                            <div class="p-4 bg-white">
+                                <img src="{{ item.image.url }}" alt="{{ item.name }}" 
+                                     class="w-full h-40 object-cover rounded-xl mb-2">
+                                <h3 class="text-sm font-semibold text-gray-800">{{ item.name }}</h3>
+                                <p class="text-sm text-gray-500">Price: Ksh {{ item.price }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-6 text-center text-xl">
+                        <h2 class="text-xl">Sorry, the product/item you are looking for is not yet available.</h2>
+                        <p>If you have it, you can <a href="{% url 'item:new' %}" class="text-teal-500 font-bold">sell it here</a></p>
+                        <p>You also can ask on the <a href="{% url 'conversation:group' %}" class="text-teal-500 font-bold">space</a>.</p>
+                        <p>or check back after some time.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar Toggle Script -->
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('-translate-x-full');
+    }
+</script>
+{% endblock %}

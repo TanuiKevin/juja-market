@@ -1,0 +1,126 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<style>
+    .slider-item img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .slider-container {
+        width: 100%;
+        overflow: hidden;
+        margin: 30px auto;
+    }
+
+    .slider-list {
+        width:100000;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        animation: slider 15s infinite;
+        white-space: nowrap;
+    }
+
+    .slider-item {
+        display: inline-block;
+    }
+
+    @keyframes slider {
+        0% {
+            transform: translateX(0);
+        }
+        16.66% {
+            transform: translateX(0);
+        }
+        33.33% {
+            transform: translateX(-200px);
+        }
+        50% {
+            transform: translateX(-200px);
+        }
+        66.66% {
+            transform: translateX(-400px);
+        }
+        83.33% {
+            transform: translateX(-400px);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+</style>
+
+<div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-2xl text-center">Best selling items</h2>
+
+    <div id="slider" class="slider-container">
+        <ul class="slider-list">
+            {% for item in item1 %}
+                <li class="slider-item">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div>
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" class="rounded-xl transform transition duration-500 hover:scale-110" alt="shoe image">
+                            {% else %}
+                                <img src="/media/item_images/No-Image.jpg" alt="Placeholder">
+                            {% endif %}
+                        </div>
+
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ item.name }}</h2>
+                            <p class="text-gray-500">Price: Kes {{ item.price }}</p>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-2xl text-center">Categories</h2>
+
+    <div class="grid grid-cols-4 gap-4">
+        {% for category in categories %}
+            <div>
+                <a href="#">
+                    <div class="p-8 bg-white rounded-b-xl">
+                       <a href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                        <p class="text-gray-500">{{ category.items.count }} items</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">All items</h2>
+
+        <div class="grid grid-cols-5 gap-5">
+            {% for item in items %}
+            
+                <div>
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div style="width: 200px;
+                        height: 200px;">
+                            {% if item.image %}
+                            <img src="{{ item.image.url }}" class="rounded-xl transform transition duration-500 hover:scale-150" alt="shoe image" style="max-height: 300px; max-width: 100%; margin: auto; padding: 4px;">
+                            {% else %}
+                             <img src="/media/item_images/No-Image.jpg" alt="Placeholder" style="max-height: 300px; max-width: 100%; margin: auto; padding: 4px;">
+                            {% endif %}
+                        </div>
+
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ item.name }}</h2>
+                            <p class="text-gray-500">Price: Kes {{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

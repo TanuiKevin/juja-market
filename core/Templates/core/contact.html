@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-semibold mb-4">Contact Us</h1>
+    
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <p>Chat on WhatsApp:</p>
+        <a aria-label="Chat on WhatsApp" href="https://wa.me/254757009367">
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+            </button>
+        </a>
+
+        <p>You can also send an email:</p>
+        <a href="mailto:tanuikevin19@gmail.com">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <i class="fas fa-envelope"></i> Send Email
+            </button>
+        </a>
+
+        <p>Follow on LinkedIn:</p>
+        <a href="https://www.linkedin.com/in/kevin-kimutai-aa8274254/" target="_blank">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <i class="fab fa-linkedin"></i> Follow on LinkedIn
+            </button>
+        </a>
+        <p>Or, you can call:</p>
+        <a href="tel:+254757009367">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <i class="fas fa-phone"></i> Call
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock %}

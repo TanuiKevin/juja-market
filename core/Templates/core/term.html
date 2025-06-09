@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Terms{% endblock %}
+
+{% block content %}
+    <h2 style="color:green;">Terms of Use</h2>
+
+    <p>Last updated: [Date]</p>
+
+    <p>Please read these Terms of Use ("Terms") carefully before using this Website. These Terms govern your access and use of the Website and its services.</p>
+
+    <h3 style="color:blue;">1. Acceptance of Terms</h3>
+    <p>By using the Website, you affirm that you are of legal age to enter into this agreement.</p>
+
+    <h3 style="color:blue;">2. User Accounts</h3>
+    <p>You may be required to create an account to access certain features of the Website. You are responsible for maintaining the security of your account information.</p>
+
+    <h3 style="color:blue;">3. User Responsibilities</h3>
+    <p>You agree not to use the Website for any unlawful or unauthorized purpose.</p>
+
+    <h3 style="color:blue;">4. Buying and Selling</h3>
+    <p>The Website facilitates transactions between users, enabling the buying and selling of products. We do not guarantee the quality, safety, or legality of items listed.</p>
+
+    <h3 style="color:blue;">5. Content and Intellectual Property</h3>
+    <p>All content on the Website is protected by copyright and other intellectual property laws.</p>
+
+    <h3 style="color:blue;">6. Termination</h3>
+    <p>We reserve the right to terminate or suspend your account and access to the Website for any violation of these Terms.</p>
+
+    <h3 style="color:blue;">7. Limitation of Liability</h3>
+    <p>We are not responsible for any indirect, incidental, or consequential damages arising out of your use of the Website.</p>
+
+    <h3 style="color:blue;">8. Privacy</h3>
+    <p>Your use of the Website is also governed by our Privacy Policy.</p>
+
+    <h3 style="color:blue;">9. Changes to Terms</h3>
+    <p>We reserve the right to modify or update these Terms at any time.</p>
+
+    <h3 style="color:blue;">10. Contact Information</h3>
+    <p>If you have any questions or concerns regarding these Terms, please <a href="{% url 'core:contact' %}" style="text-decoration: none; color: #38B2AC;">Contact us</a>.</p>
+{% endblock %}
